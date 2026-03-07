@@ -1,0 +1,13 @@
+2026-01-02 18:20:31 [Thread-4] ERROR baseNoStates.WebServer - Unknown request favicon.ico
+2026-01-02 18:33:12 [Timer-1] WARN  baseNoStates.ProppedState - Door D8 entered PROPPED state - security alert!
+2026-01-02 18:33:12 [Timer-1] WARN  baseNoStates.UnlockShortlyState - Door D8 propped - was left open after 10 seconds
+2026-01-09 10:16:18 [Thread-80] WARN  baseNoStates.UnlockedState - Cannot lock door D1 - it's open
+2026-01-09 10:37:37 [Thread-91] WARN  baseNoStates.UnlockedState - Cannot lock door D1 - it's open
+2026-01-09 10:38:33 [Thread-106] WARN  baseNoStates.UnlockedState - Cannot lock door D4 - it's open
+2026-01-09 10:38:33 [Thread-106] WARN  baseNoStates.UnlockedState - Cannot lock door D6 - it's open
+2026-01-09 11:40:21 [Thread-12] WARN  baseNoStates.UnlockedState - Cannot lock door D5 - it's open
+2026-01-09 11:41:12 [Thread-24] WARN  baseNoStates.UnlockedState - Cannot lock door D4 - it's open
+2026-01-09 11:41:12 [Thread-24] WARN  baseNoStates.UnlockedState - Cannot lock door D5 - it's open
+2026-01-09 11:41:12 [Thread-24] WARN  baseNoStates.UnlockedState - Cannot lock door D6 - it's open
+2026-01-09 11:52:22 [Thread-46] WARN  baseNoStates.UnlockedState - Cannot lock door D8 - it's open
+2026-01-09 11:52:44 [Thread-55] WARN  baseNoStates.LockedState - Cannot open door D8 - it's locked
