@@ -1,0 +1,5 @@
+2025-12-26 13:13:21 [Thread-4] ERROR baseNoStates.WebServer - Unknown request favicon.ico
+2025-12-26 20:10:48 [Thread-7] WARN  baseNoStates.LockedState - Door already locked!!
+2025-12-26 20:10:48 [Thread-10] WARN  baseNoStates.LockedState - Door already locked!!
+2025-12-26 20:10:48 [Thread-11] WARN  baseNoStates.LockedState - Door already locked!!
+2025-12-26 20:15:36 [Thread-7] WARN  baseNoStates.LockedState - Door already locked!!

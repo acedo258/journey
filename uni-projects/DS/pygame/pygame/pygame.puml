@@ -1,0 +1,89 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Prototype {
+  +clone() : Prototype
+}
+
+class Bird {
+  +Min_Speed : int
+  +Max_Speed : int
+  +speed : int
+  +time : int
+  +update()
+  +clone() : Bird
+}
+
+class Umbrella {
+  +speed : int
+  +update()
+  +clone() : Umbrella
+}
+
+class Cloud {
+  +update()
+  +clone() : Cloud
+}
+
+class Mountain {
+  +speed : int
+  +update()
+  +clone() : Mountain
+}
+
+class Jet {
+  +speed : int
+  +update()
+  +clone() : Jet
+}
+
+class Missile {
+  +speed : int
+  +update()
+  +clone() : Missile
+}
+
+class Player {
+  +update(pressed_keys)
+  +stop_move_sounds()
+}
+
+class FactorySprites {
+  -_registry : dict
+  +register(event_type, prototype, period_ms)
+  +make(event_type) : Prototype
+  +event_types() : list
+}
+
+class Game {
+  -_factory_flying : FactorySprites
+  -_factory_landscape : FactorySprites
+  -_player : Player
+  -_birds : Group
+  -_clouds : Group
+  -_all_sprites : Group
+  +play()
+}
+
+class Sprite {
+}
+
+Prototype <|-- Bird
+Prototype <|-- Umbrella
+Prototype <|-- Cloud
+Prototype <|-- Mountain
+Prototype <|-- Jet
+Prototype <|-- Missile
+Sprite <|-- Player
+Sprite <|-- Prototype
+Sprite <-- Game
+
+
+Game --> "1" FactorySprites 
+Game --> "1" FactorySprites 
+Game --> "1" Player
+
+
+FactorySprites --> "*" Prototype 
+
+@enduml

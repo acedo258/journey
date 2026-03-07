@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+        <!-- VARIABLE PARA ELEGIR MILESTONE: 1 o 2 -->
+<property name="milestone" value="1"/>
+
+        <!-- Consola -->
+<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+<encoder>
+    <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+</encoder>
+</appender>
+
+        <!-- activity.log -->
+<appender name="ACTIVITY" class="ch.qos.logback.core.FileAppender">
+<file>activity.log</file>
+<append>true</append>
+<encoder>
+    <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+</encoder>
+</appender>
+
+        <!-- LOGGER M1: solo activo si milestone == 1 -->
+<if condition='property("milestone").equals("1")'>
+<then>
+    <!-- aquí pones TODAS las clases de M1 -->
+    <logger name="baseNoStates.Door" level="DEBUG"/>
+    <logger name="baseNoStates.DoorState" level="DEBUG"/>
+    <logger name="baseNoStates.LockedState" level="DEBUG"/>
+    <logger name="baseNoStates.UnlockedState" level="DEBUG"/>
+    <logger name="baseNoStates.UnlockShortlyState" level="DEBUG"/>
+    <logger name="baseNoStates.ProppedState" level="DEBUG"/>
+    <logger name="baseNoStates.User" level="DEBUG"/>
+    <logger name="baseNoStates.Schedule" level="DEBUG"/>
+    <logger name="baseNoStates.DirectoryDoors" level="DEBUG"/>
+    <logger name="baseNoStates.DirectoryUserGroups" level="DEBUG"/>
+    <logger name="baseNoStates.WebServer" level="DEBUG"/>
+    <logger name="baseNoStates.requests" level="DEBUG"/>
+</then>
+</if>
+
+        <!-- LOGGER M2: solo activo si milestone == 2 -->
+<if condition='property("milestone").equals("2")'>
+<then>
+    <!-- aquí pones TODAS las clases de M2 -->
+    <logger name="baseNoStates.Area" level="DEBUG"/>
+    <logger name="baseNoStates.Partition" level="DEBUG"/>
+    <logger name="baseNoStates.Space" level="DEBUG"/>
+    <logger name="baseNoStates.AreaVisitor" level="DEBUG"/>
+    <logger name="baseNoStates.FindAreaVisitor" level="DEBUG"/>
+    <logger name="baseNoStates.SpacesVisitor" level="DEBUG"/>
+    <logger name="baseNoStates.DoorsVisitor" level="DEBUG"/>
+    <logger name="baseNoStates.DirectoryAreas" level="DEBUG"/>
+    <logger name="baseNoStates.Clock" level="DEBUG"/>
+</then>
+</if>
+
+        <!-- Root: solo warnings del resto -->
+<root level="WARN">
+<appender-ref ref="CONSOLE"/>
+<appender-ref ref="ACTIVITY"/>
+</root>
+
+        </configuration>

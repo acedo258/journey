@@ -1,0 +1,66 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+    abstract class CodeHandler {
+        - nextHandler: CodeHandler
+        + handleCode(code: String, door: Door)
+    }
+
+    class Log {
+        + handleCode(code: String, door: Door)
+    }
+
+    class Unlock {
+        - codeUnlock: String
+        + handleCode(code: String, door: Door)
+    }
+
+    class FireAlarm {
+        - codeFireAlarm: String
+        + handleCode(code: String, door: Door)
+    }
+
+    class Open {
+        - codeOpen: String
+        + handleCode(code: String, door: Door)
+    }
+
+    class Lock {
+        + handleCode(code: String, door: Door)
+    }
+
+    class Door {
+        - id: String
+        - locked: boolean
+        - numTrials: int
+        - codeOpen: String
+        - codeFireAlarm: String
+        - codeUnlock: String
+        - codeHandler: CodeHandler
+        --
+        + processCode(code: String)
+        + open()
+        + lock()
+        + unlock()
+        + resetState()
+        + setCodeHandler(handler: CodeHandler)
+    }
+
+    class Client {
+        + main(args: String[])
+    }
+
+
+CodeHandler <|-- Log
+CodeHandler <|-- Unlock
+CodeHandler <|-- FireAlarm
+CodeHandler <|-- Open
+CodeHandler <|-- Lock
+
+Door --> CodeHandler : 1
+CodeHandler --> CodeHandler
+
+Client --> Door
+Client --> CodeHandler
+
+@enduml

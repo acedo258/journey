@@ -1,0 +1,76 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class ClockTimer {
+    - timer : Timer
+    - period : int
+    + ClockTimer(period : int)
+    + getPeriod() : int
+}
+
+abstract class Widget {
+    - panel : JPanel
+    - hoursOffsetTimeZone : int
+    + show() : void
+    + update(o : Observable, arg : Object) : void
+}
+
+abstract class Clock {
+    - worldPlace : String
+    + Clock(hoursOffsetTimeZone : int, worldPlace : String, clockTimer : ClockTimer)
+}
+
+class AnalogClock {
+    + AnalogClock(hoursOffsetTimeZone : int, worldPlace : String, clockTimer : ClockTimer)
+}
+
+class DigitalClock {
+    - formatter : DateTimeFormatter
+    - clockLabel : JLabel
+    + DigitalClock(hoursOffsetTimeZone : int, worldPlace : String, clockTimer : ClockTimer)
+}
+
+class Stopwatch {
+    - timeLabel : JLabel
+    - startStopButton : JButton
+    - isRunning : boolean
+    - elapsedTime : Duration
+    - startTime : LocalDateTime
+    + Stopwatch(clockTimer : ClockTimer)
+}
+
+class CountdownTimer {
+    - timeLabel : JLabel
+    - startResetButton : JButton
+    - isRunning : boolean
+    - remainingTime : Duration
+    - lastUpdateTime : LocalDateTime
+    + CountdownTimer(clockTimer : ClockTimer)
+}
+
+class Main {
+    + main(args : String[]) : void
+}
+
+interface java.util.Observer {
+    + update(o : Observable, arg : Object) : void
+}
+
+class java.util.Observable {
+    + addObserver(o : Observer) : void
+    + notifyObservers(arg : Object) : void
+    - obs : Vector
+    - changed : boolean
+}
+
+ClockTimer <|-- java.util.Observable
+Widget <|-- Clock
+Widget <|-- Stopwatch
+Widget <|-- CountdownTimer
+Clock <|-- AnalogClock
+Clock <|-- DigitalClock
+Widget ..|> java.util.Observer
+
+
+
+@enduml

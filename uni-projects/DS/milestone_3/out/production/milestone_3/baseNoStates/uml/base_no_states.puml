@@ -1,0 +1,377 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+' ============================================
+' WEB SERVER
+' ============================================
+
+class Webserver {
+  - {static} PORT : int
+  - {static} FORMATTER : DateTimeFormatter
+  + Webserver()
+}
+
+class SocketThread {
+  - insocked : Socket
+  - makeRequest(tokens : String[]) : Request
+  - makeRequestReader(tokens : String[]) : RequestReader
+  - makeRequestArea(tokens : String[]) : RequestArea
+  - makeHeaderAnswer() : String
+  - makeJsonAnswer(request : Request) : String
+  + run()
+}
+
+Webserver +-right- SocketThread
+
+note right of SocketThread
+  inner class
+  of Webserver
+end note
+
+' ============================================
+' REQUESTS
+' ============================================
+
+interface Request {
+  + answerToJson() : JSONObject
+  + process() : void
+  + toString() : String
+}
+
+class RequestReader {
+  - credential : String
+  - action : String
+  - dateTime : LocalDateTime
+  - doorId : String
+  - doorStateName : String
+  - authorized : boolean
+  - reasons : ArrayList<String>
+  + getAction() : String
+  + isAuthorized() : boolean
+  + answerToJson() : JSONObject
+  + process() : void
+}
+
+class RequestArea {
+  - credential : String
+  - action : String
+  - areaId : String
+  - dateTime : LocalDateTime
+  - doorRequests : ArrayList<RequestReader>
+  + getAction() : String
+  + answerToJson() : JSONObject
+  + process() : void
+}
+
+class RequestRefresh {
+  - doorStates : ArrayList<JSONObject>
+  + answerToJson() : JSONObject
+  + process() : void
+}
+
+Request <|.. RequestReader
+Request <|.. RequestArea
+Request <|.. RequestRefresh
+
+' ============================================
+' ACTIONS
+' ============================================
+
+class Actions {
+  + {static} LOCK : String
+  + {static} UNLOCK : String
+  + {static} OPEN : String
+  + {static} CLOSE : String
+  + {static} UNLOCK_SHORTLY : String
+}
+
+' ============================================
+' AREAS (Composite + Visitor pattern)
+' ============================================
+
+abstract class Area {
+  # id : String
+  # description : String
+  # parent : Partition
+  + getId() : String
+  + getParent() : Partition
+  + getDoorsGivingAccess() : ArrayList<Door>
+  + findAreaById(String) : Area
+  + getSpaces() : ArrayList<Space>
+  + {abstract} accept(AreaVisitor) : void
+}
+
+class Partition {
+  - childAreas : ArrayList<Area>
+  + addArea(Area) : void
+  + getAreas() : ArrayList<Area>
+  + accept(AreaVisitor) : void
+}
+
+class Space {
+  - doors : ArrayList<Door>
+  + addDoor(Door) : void
+  + getDoors() : ArrayList<Door>
+  + accept(AreaVisitor) : void
+}
+
+Area <|-- Partition
+Area <|-- Space
+Partition o--> "1..*" Area : childAreas
+
+note bottom of Area
+  <b>Composite + Visitor Pattern</b>
+  Area is component, Partition is composite,
+  Space is leaf. accept() enables Visitor.
+end note
+
+' ============================================
+' VISITOR PATTERN
+' ============================================
+
+interface AreaVisitor {
+  + visitPartition(Partition) : void
+  + visitSpace(Space) : void
+}
+
+class FindAreaVisitor {
+  - targetId : String
+  - found : Area
+  + getFound() : Area
+  + visitPartition(Partition) : void
+  + visitSpace(Space) : void
+}
+
+class DoorsVisitor {
+  - doors : ArrayList<Door>
+  + getDoors() : ArrayList<Door>
+  + visitPartition(Partition) : void
+  + visitSpace(Space) : void
+}
+
+class SpacesVisitor {
+  - spaces : ArrayList<Space>
+  + getSpaces() : ArrayList<Space>
+  + visitPartition(Partition) : void
+  + visitSpace(Space) : void
+}
+
+AreaVisitor <|.. FindAreaVisitor
+AreaVisitor <|.. DoorsVisitor
+AreaVisitor <|.. SpacesVisitor
+
+Area ..> AreaVisitor : <<uses>>
+
+note bottom of AreaVisitor
+  <b>Visitor Pattern</b>
+  Allows adding new operations
+  without modifying Area classes
+end note
+
+' ============================================
+' DOORS (State pattern)
+' ============================================
+
+class Door {
+  - id : String
+  - closed : boolean
+  - state : DoorState
+  - fromSpace : Space
+  - toSpace : Space
+  + processRequest(RequestReader) : void
+  - doAction(String) : void
+  + isClosed() : boolean
+  + setClosed(boolean) : void
+  + setState(DoorState) : void
+  + getId() : String
+  + getStateName() : String
+  + getFromSpace() : Space
+  + getToSpace() : Space
+  + toJson() : JSONObject
+}
+
+abstract class DoorState {
+  # door : Door
+  + {abstract} open() : void
+  + {abstract} close() : void
+  + {abstract} lock() : void
+  + {abstract} unlock() : void
+  + {abstract} unlockShortly() : void
+}
+
+class LockedState {
+  + open() : void
+  + close() : void
+  + lock() : void
+  + unlock() : void
+  + unlockShortly() : void
+}
+
+class UnlockedState {
+  + open() : void
+  + close() : void
+  + lock() : void
+  + unlock() : void
+  + unlockShortly() : void
+}
+
+class UnlockShortlyState {
+  - startTime : LocalDateTime
+  - clock : Clock
+  + open() : void
+  + close() : void
+  + lock() : void
+  + unlock() : void
+  + unlockShortly() : void
+  + update(Observable, Object) : void
+}
+
+class ProppedState {
+  + open() : void
+  + close() : void
+  + lock() : void
+  + unlock() : void
+  + unlockShortly() : void
+}
+
+Door o--> DoorState : state
+DoorState <|-- LockedState
+DoorState <|-- UnlockedState
+DoorState <|-- UnlockShortlyState
+DoorState <|-- ProppedState
+
+Space --> "0..*" Door : doors
+
+note right of DoorState
+  <b>State Pattern</b>
+  Door behavior changes
+  based on current state
+end note
+
+' ============================================
+' CLOCK (Singleton + Observer pattern)
+' ============================================
+
+class Clock {
+  - {static} instance : Clock
+  - timer : Timer
+  - currentTime : LocalDateTime
+  - Clock()
+  + {static} getInstance() : Clock
+  + start() : void
+  + stop() : void
+  + getCurrentTime() : LocalDateTime
+}
+
+Clock --|> java.util.Observable
+UnlockShortlyState ..|> java.util.Observer
+Clock ..> UnlockShortlyState : notifies
+
+note left of Clock
+  Only one clock instance + Observer Pattern
+
+end note
+
+' ============================================
+' JAVA.UTIL (Observer pattern - separate box)
+' ============================================
+
+package "java.util" {
+  interface java.util.Observer {
+    + update(o : Observable, arg : Object) : void
+  }
+
+  class java.util.Observable {
+    + addObserver(o : Observer) : void
+    + deleteObserver(o : Observer) : void
+    + notifyObservers(arg : Object) : void
+    + setChanged() : void
+  }
+}
+
+' ============================================
+' USERS AND GROUPS (RBAC)
+' ============================================
+
+class User {
+  - name : String
+  - credential : String
+  - userGroup : UserGroup
+  + getName() : String
+  + getCredential() : String
+  + setUserGroup(UserGroup) : void
+  + canSendRequests(LocalDateTime) : boolean
+  + canDoAction(String) : boolean
+  + canBeInSpace(Space) : boolean
+}
+
+class UserGroup {
+  - name : String
+  - schedule : Schedule
+  - allowedActions : ArrayList<String>
+  - authorizedAreas : ArrayList<Area>
+  - users : ArrayList<User>
+  + getName() : String
+  + addUser(User) : void
+  + getUsers() : ArrayList<User>
+  + canSendRequests(LocalDateTime) : boolean
+  + canDoAction(String) : boolean
+  + canBeInSpace(Space) : boolean
+}
+
+class Schedule {
+  - startDate : LocalDate
+  - endDate : LocalDate
+  - daysOfWeek : ArrayList<DayOfWeek>
+  - startTime : LocalTime
+  - endTime : LocalTime
+  + isWithinSchedule(LocalDateTime) : boolean
+}
+
+UserGroup *--> "0..*" User : users
+UserGroup --> Schedule : schedule
+UserGroup --> "0..*" Area : authorizedAreas
+User --> UserGroup : userGroup
+
+' ============================================
+' DIRECTORIES
+' ============================================
+
+class DirectoryAreas {
+  - {static} instance : DirectoryAreas
+  - rootArea : Area
+  - DirectoryAreas()
+  + {static} getInstance() : DirectoryAreas
+  + {static} findAreaById(String) : Area
+  + getRootArea() : Area
+}
+
+class DirectoryDoors {
+  - {static} allDoors : ArrayList<Door>
+  + {static} makeDoors() : void
+  + {static} findDoorById(String) : Door
+  + {static} getAllDoors() : ArrayList<Door>
+}
+
+class DirectoryUserGroups {
+  - {static} userGroups : ArrayList<UserGroup>
+  + {static} makeUserGroups() : void
+  + {static} findUserByCredential(String) : User
+  + {static} findUserGroupByName(String) : UserGroup
+  + {static} getUserGroups() : ArrayList<UserGroup>
+}
+
+DirectoryAreas --> Area : rootArea
+DirectoryDoors o--> "0..*" Door : allDoors
+DirectoryUserGroups o--> "0..*" UserGroup : userGroups
+
+' ============================================
+' MAIN (isolated, no relationships)
+' ============================================
+
+class Main {
+  + {static} main(String[]) : void
+}
+
+@enduml
