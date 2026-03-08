@@ -1,0 +1,16 @@
+level: easy
+
+pasos:
+$ file file
+file: data
+--> data = no reconoce ningun formato conocido. Normalmente los archivos más comunes tienen unos 'magi bytes' al principio para identificar
+
+$ xxd -l 32 file
+00000000: 5c78 ffe0 0010 4a46 4946 0001 0100 0001 \x....JFIF......
+00000010: 0001 0000 ffdb 0043 0008 0606 0706 0508 .......C........
+--> Miramos que hay error '\x',  buscamos en internet secuencias de magit bytes y encontramos la de JPEG JFIF -->FF D8 FF E0 00 10 4A 46 49 46 00 01
+
+$(printf '\xff\xd8' && tail -c +3 file) > repaired.jpg
+--> insertamos los dos bytes que faltan (FF D8) y lo guardamos 
+
+FLAG = picoCTF{r3st0r1ng_th3_by73s_0e8fb0ec}
