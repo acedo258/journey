@@ -1,0 +1,80 @@
+Monitorización de procesos
+sudo ps auxww
+Ver todos los procesos del sistema, en formato legible con %CPU y %MEM, incluyendo los sin terminal, y sin cortar los comandos largos
+
+VSZ = Virtual Memory Size (tamaño total reservado en memoria virtual, en KB)
+RSS = Resident Set Size (memoria física real usada, en KB)
+TTY = Terminal asociado (si lo tiene)
+STAT = Estado del proceso
+R → Running (ejecutándose o listo para CPU)
+S → Sleeping (durmiendo, esperando evento)
+I → Idle (kernel thread inactivo)
+< → Alta prioridad
+s → Session leader 
+l → Multi-threaded
++ → En foreground 
+
+top
+Monitorear en tiempo real el rendimiento del sistema y los procesos que lo consumen.
+
+pgrep x
+
+kill x
+detener proceso
+
+ss -tulnp
+Puertos TCP y UDP que están escuchando, con direcciones/puertos en formato numérico, y el proceso responsable de cada uno
+
+tipo de conexión/estado/paquetes recibidos/paquetes enviados/Dirección IP y puerto local/ dirección y puerto de cliente (0.0.0.0:* o [::]:* → acepta de cualquiera)/Nombre del programa + PID + fd (descriptor de archivo) que abrió el socket
+
+tcp LISTEN 0 4096 127.0.0.54:53 0.0.0.0:*
+Hay un servidor DNS escuchando
+Solo en la IP 127.0.0.54 (una dirección loopback especial en muchas distros modernas)
+Puerto 53 → DNS
+systemd-resolved (el resolvedor DNS local de systemd)
+Solo acepta conexiones desde la propia máquina (no desde la red)
+tcp LISTEN 0 4096 127.0.0.[::1]:631 [::]:*
+Hay un servidor de impresión escuchando
+Solo en localhost IPv6 (::1 = loopback IPv6)
+Puerto 631 → CUPS (Common Unix Printing System)
+El programa es casi seguro cupsd (el daemon de CUPS)
+Solo acepta conexiones desde la propia máquina
+
+sudo ss -lnp → sudo ss -tulnp
+Muéstrame todos los sockets que están en LISTEN, con puertos/IPs en números, y el proceso responsable, incluyendo no solo TCP/UDP sino también sockets UNIX
+
+
+Sistema de archivos
+ls -l 
+muestra = permisos, propietario, tamaño y fecha
+
+ls -la
+muestra archivos ocultos
+
+stat archivo.txt
+muestra información detallada de un archivo
+
+Usuarios y permisos
+who
+muestra usuarios conectados
+
+w
+Muestra usuarios conectados y qué están haciendo
+
+id x
+Muestra información de un usuario
+
+chmod x
+cambia permisos de archivos
+
+chown
+cambia propietario de archivos
+
+Información del sistema
+uname -a
+Muestra información del kernel.
+
+hostname
+Muestra el nombre del equipo.
+
+
