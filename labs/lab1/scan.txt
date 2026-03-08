@@ -1,0 +1,33 @@
+Prueba a mi propio ordenador
+
+-> Escaner de puertos abiertos:
+$ nmap -sT localhost
+x
+PORT    STATE SERVICE
+631/tcp open  ipp
+
+Nmap done: 1 IP address (1 host up) scanned in 0.03 seconds
+
+
+$ ss -tulnp
+Netid   State    Recv-Q   Send-Q     Local Address:Port      Peer Address:Port  Process
+tcp     LISTEN   0        4096           127.0.0.1:631            0.0.0.0:* 
+
+$ abrimos en el navegador --> http://localhost:631
+""CUPS 2.4.7
+
+CUPS es el sistema de impresión de código abierto basado en estándares desarrollado por OpenPrinting para macOS® y otros sistemas operativos tipo UNIX®. CUPS uses IPP Everywhere™ to support printing to local and network printers.""
+
+--> Interpretación
+Nmap: En el puerto 631 está abierto y utiliza el protocolo TCP. Se ha detectado el servicio IPP.
+IPP = Internet printing protocol --> Protocolo para imprimir documentos a través de una red ip.
+
+
+Para confirmar utilizamos el comando ss -tulnp.
+Con ss hemos visto -->  tcp     LISTEN   0        4096           127.0.0.1:631            0.0.0.0:*
+Vemos que el puerto 631 está escuchando en la ip 127.0.0.1 (= localhost). Confirma el resultado de Nmap.
+
+El servicio solo acepta conexiones desde el propio equipo. No es accesible desde la red externa. Por tanto, no seria un puerto para atacar de forma remota, ya que otros dispositivos de la red no pueden conectarse a ese puerto.
+
+En el navegador vemos la versión.
+CUPS (Common UNIX Printing System) es el sistema de impresión estándar y de código abierto que usan la mayoría de las distribuciones Linux (como Ubuntu, Fedora, Mint, etc.), macOS y otros sistemas tipo UNIX para manejar impresoras.
