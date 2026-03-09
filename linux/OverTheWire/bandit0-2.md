@@ -29,7 +29,7 @@ bandit1@bandit:~$ ls
 -
 bandit1@bandit:~$ cat ./-
 263JGJPfgU6LtdEvgfWU1XP5yac29mFx
-bandit1@bandit:~$ 
+bandit1@bandit:~
 
 #al poner cat - se interpreta ‘-’ como opción y no como el nombre del archivo, hay que poner la ruta relativa
 
