@@ -7,7 +7,6 @@
 
                   This is an OverTheWire game server. 
         More information on http://www.overthewire.org/wargames
-# level 2->3
 ```
 andit2@bandit:~$ ls
 --spaces in this filename--
