@@ -1,3 +1,16 @@
+                         _                     _ _ _   
+                        | |__   __ _ _ __   __| (_) |_ 
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_ 
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+                                                       
+
+                      This is an OverTheWire game server. 
+            More information on http://www.overthewire.org/wargames
+
+
+
+```
 bandit4@bandit:~$ ls
 inhere
 bandit4@bandit:~$ cd inhere/
@@ -25,3 +38,4 @@ bandit4@bandit:~/inhere$ file ./-file07
 bandit4@bandit:~/inhere$ cat ./-file07
 4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
 bandit4@bandit:~/inhere$
+```
