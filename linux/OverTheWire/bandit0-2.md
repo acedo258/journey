@@ -12,6 +12,7 @@ $ssh bandit0@bandit.labs.overthewire.org -p 2220
             More information on http://www.overthewire.org/wargames
 
 
+
 $ ls
 readme
 $ cat readme
