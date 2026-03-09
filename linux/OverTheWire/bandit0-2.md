@@ -1,4 +1,4 @@
-##Antes de empezar → level 0
+#Antes de empezar → level 0
 $ssh bandit0@bandit.labs.overthewire.org -p 2220
 
    _                     _ _ _   
@@ -23,11 +23,13 @@ please inform the instructor about the rules as well and encourage them to
 contribute to the OverTheWire community so we can keep these games free!
 The password you are looking for is: ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
 
-##Level 0→ 1
+#Level 0→ 1
+```
 bandit1@bandit:~$ ls
 -
 bandit1@bandit:~$ cat ./-
 263JGJPfgU6LtdEvgfWU1XP5yac29mFx
 bandit1@bandit:~
+```
 
 #al poner cat - se interpreta ‘-’ como opción y no como el nombre del archivo, hay que poner la ruta relativa
