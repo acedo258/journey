@@ -19,7 +19,7 @@ Resolución:
 Cuando seleccionamos una categoría, la aplicación genera una consulta SQL.
 Como el valor de category se inserta directamente en la consulta sin validación, es posible modificarla mediante una inyección SQL.
 
-1. Determinar el número de columnas
+Determinamos el número de columnas
 Se prueban diferentes valores en el parámetro vulnerable:
 ' ORDER BY 1--
 ' ORDER BY 2--
@@ -27,7 +27,7 @@ Se prueban diferentes valores en el parámetro vulnerable:
 
 Cuando el número utilizado supera el número real de columnas de la consulta, la aplicación genera un error.
 
-2. Preparar la inyección con UNION
+Preparamos la inyección con UNION
 Una vez conocido el número de columnas, se puede utilizar el operador UNION SELECT para añadir una segunda consulta que devuelva información de la base de datos.
 Con Oracle Database, las consultas deben incluir siempre una tabla en la cláusula FROM. Para este utilizamos DUAL.
 
