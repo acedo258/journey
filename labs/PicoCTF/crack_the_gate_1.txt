@@ -5,7 +5,21 @@ Additional details will be available after launching your challenge instance.
 level: easy
 
 pasos:
- <!-- ABGR: Wnpx - grzcbenel olcnff: hfr urnqre "K-Qri-Npprff: lrf" -->
+Al entrar en la web hacemos boton dereche + ver codigo fuente de la página.
+Destro de código vemos en el body un comentario:
+<!-- ABGR: Wnpx - grzcbenel olcnff: hfr urnqre "K-Qri-Npprff: lrf" -->
 <!-- Remove before pushing to production! -->   
 
+Hacemos Rot13 y obtenemos el mensaje limpio:
 NOTE: Jack - temporary bypass: use header "X-Dev-Access: yes"
+Esto nos dice que existe un bypass de desarrollo que permite entrar si enviamos el header --> X-Dev-Access: yes
+
+Boton derecho + inspeccionar --> vamos a Network
+Hacemos una solicitud de inicio de session y se genera un POST/login
+El POST sale en rojo (401 Unauthorized), le damos a editar y volver a enviar y añadimos lo que nos pone en el comentario
+Despues de intentar mandar la petición editada desde la web, vemos que no funciona
+
+Copiamos el post como cURL y hacemos la petición manualmente.
+
+PS C:\Users\laced> curl.exe -X POST "http://amiable-citadel.picoctf.net:51240/login" -H "Content-Type: application/x-www-form-urlencoded" -H "X-Dev-Access: yes" -d "email=ctf-player@picoctf.org&password=abc"
+{"success":true,"email":"ctf-player@picoctf.org","firstName":"pico","lastName":"player","flag":"picoCTF{brut4_f0rc4_3e21b3a3}"}
