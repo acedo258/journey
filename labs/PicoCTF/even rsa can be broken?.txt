@@ -1,0 +1,49 @@
+level: easy
+
+Description:
+This service provides you an encrypted flag. Can you decrypt it with just N & e? Connect to the program with netcat: $ nc verbal-sleep.picoctf.net 54407 The program's source code can be downloaded here.
+
+pasos:
+Primero empezamos conectandonos al servidor:
+
+```
+~/Escritorio$ nc verbal-sleep.picoctf.net 54407
+N: 23884992828262274549190305705247306140924527877595855715615081073100623967908892044636395843252370233301794797889950357560068475818738315450155346106665498
+e: 65537
+cyphertext: 8448932096854123231520507737579929032729648084116593709000372057330032903525428373622001064140786101384784215592865094479828429467213367570135553900197
+```
+
+cogemos un script y introducimos los datos:
+```
+from Crypto.Util.number import long_to_bytes, inverse
+import sympy
+
+N = 23884992828262274549190305705247306140924527877595855715615081073100623967908892044636395843252370233301794797889950357560068475818738315450155346106665498
+e = 65537
+c = 8448932096854123231520507737579929032729648084116593709000372057330032903525428373622001064140786101384784215592865094479828429467213367570135553900197
+
+# 1. Factorizamos N
+factors = sympy.factorint(N)
+p, q = list(factors.keys())
+
+# 2. Calculamos phi(N)
+phi = (p-1)*(q-1)
+
+# 3. Calculamos d
+d = inverse(e, phi)
+
+# 4. Desciframos
+m = pow(c, d, N)
+flag = long_to_bytes(m)
+print(flag)
+```
+
+finalmente:
+```
+~/Escritorio$ python solve.py
+b'picoCTF{tw0_1$_pr!m37dbe6984}'
+```
+  --> picoCTF{tw0_1$_pr!m37dbe6984}
+
+
+  
