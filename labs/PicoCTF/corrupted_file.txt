@@ -17,3 +17,4 @@ $(printf '\xff\xd8' && tail -c +3 file) > repaired.jpg
 --> insertamos los dos bytes que faltan (FF D8) y lo guardamos 
 
 FLAG = picoCTF{r3st0r1ng_th3_by73s_0e8fb0ec}
+  -->picoCTF{r3st0r1ng_th3_by73s_0e8fb0ec}
