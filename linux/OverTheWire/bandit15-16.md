@@ -147,7 +147,11 @@ SSL-Session:
     Max Early Data: 0
 ---
 read R BLOCK
+8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+Correct!
+kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
 
+closed
 
 ```
 
