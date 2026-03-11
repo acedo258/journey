@@ -1,1 +1,7 @@
+(base) lucia@ubuntu-acedo:~/Escritorio$ nc verbal-sleep.picoctf.net 51515
+Welcome!! Looking For the Secret?
+
+We have identified a hash: 482c811da5d5b4bc6d497ffa98491e38
+Enter the password for identified hash: exit
+Incorrect. Goodbye.
 
