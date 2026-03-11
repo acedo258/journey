@@ -105,7 +105,6 @@ Enter the password for the identified hash: qwerty098
 Correct! You've cracked the SHA-256 hash with a secret found. 
 The flag is: picoCTF{UseStr0nG_h@shEs_&PaSswDs!_4de57566}
 ```
-
-
+--> picoCTF{UseStr0nG_h@shEs_&PaSswDs!_4de57566}
 
 
