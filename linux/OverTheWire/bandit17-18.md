@@ -12,11 +12,7 @@
 NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19
 
 ```
-(base) lucia@ubuntu-acedo:~/Escritorio$ mkdir /tmp/key
-(base) lucia@ubuntu-acedo:~/Escritorio$ cd /tmp/key
-(base) lucia@ubuntu-acedo:/tmp/key$ nano key
-(base) lucia@ubuntu-acedo:/tmp/key$ chmod 600 key
-(base) lucia@ubuntu-acedo:/tmp/key$ ssh -i key bandit17@bandit.labs.overthewire.org -p 2220
+~/Escritorio/Git/journey/linux$ ssh -i sshkey17.private bandit17@bandit.labs.overthewire.org -p 2220
                          _                     _ _ _   
                         | |__   __ _ _ __   __| (_) |_ 
                         | '_ \ / _` | '_ \ / _` | | __|
@@ -110,10 +106,20 @@ discord or IRC.
 
   Enjoy your stay!
 
-
-bandit17@bandit:~$ cat /etc/bandit_pass/bandit17
-EReVavePLFHtFlFsjn3hyzMlvSuSAcRD
-
-
-```
-
+bandit17@bandit:~$ ls
+passwords.new  passwords.old
+bandit17@bandit:~$ diff passwords.old passwords.new 
+42c42
+< BMIOFKM7CRSLI97voLp3TD80NAq5exxk
+---
+> x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+bandit17@bandit:~$ 
+bandit17@bandit:~$ sort passwords.old passwords.new | uniq -u
+BMIOFKM7CRSLI97voLp3TD80NAq5exxk
+x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+bandit17@bandit:~$ bandit17@bandit:~$ cat passwords.new | grep BMIOFKM7CRSLI97voLp3TD80NAq5exxk
+bandit17@bandit:~$: command not found
+bandit17@bandit:~$ cat passwords.new | grep BMIOFKM7CRSLI97voLp3TD80NAq5exxk
+bandit17@bandit:~$ cat passwords.new | grep x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+bandit17@bandit:~$ 
